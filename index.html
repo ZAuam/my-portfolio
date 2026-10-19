@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="游戏 Demo、关卡设计、代码与程序化美术的个人作品集。">
+    <title>个人作品集 · Play / Build / Explore</title>
+    <style>
+        :root {
+            --bg: #111512;
+            --panel: #1b211c;
+            --ink: #edf1e8;
+            --muted: #9da79d;
+            --lime: #c5f277;
+            --line: #343d32
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Arial, 'Microsoft YaHei', sans-serif
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer
+        }
+
+        header {
+            max-width: 1320px;
+            margin: auto;
+            padding: 28px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .logo {
+            font-weight: 800;
+            letter-spacing: -1px
+        }
+
+        .logo b {
+            color: var(--lime)
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        nav a:hover {
+            color: var(--lime)
+        }
+
+        main {
+            max-width: 1320px;
+            margin: auto;
+            padding: 0 48px
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.08fr 1fr;
+            gap: 44px;
+            padding: 72px 0 80px;
+            align-items: center
+        }
+
+        .eyebrow {
+            font: 11px monospace;
+            letter-spacing: 2px;
+            color: var(--lime);
+            text-transform: uppercase
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 5.9vw, 78px);
+            line-height: 1.12;
+            letter-spacing: -4px;
+            margin: 25px 0
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--lime)
+        }
+
+        .hero p {
+            max-width: 440px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9
+        }
+
+        .cta {
+            display: inline-flex;
+            margin-top: 25px;
+            background: var(--lime);
+            color: var(--bg);
+            padding: 16px 23px;
+            gap: 40px;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: bold
+        }
+
+        .visual {
+            position: relative;
+            background: #1a221b;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            overflow: hidden;
+            aspect-ratio: 1.05
+        }
+
+        .visual canvas {
+            width: 100%;
+            height: 100%;
+            display: block
+        }
+
+        .visual .label {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font: 10px monospace;
+            color: var(--lime);
+            letter-spacing: 2px
+        }
+
+        .visual .caption {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            font: 10px monospace;
+            color: #c8d3bd
+        }
+
+        .strip {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 22px 0;
+            display: flex;
+            justify-content: space-between;
+            font: 12px monospace;
+            color: var(--muted)
+        }
+
+        .strip span:first-child {
+            color: var(--lime)
+        }
+
+        section {
+            padding: 75px 0
+        }
+
+        .sectiontop {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 32px
+        }
+
+        h2 {
+            font-size: 34px;
+            letter-spacing: -1px;
+            margin: 12px 0 0
+        }
+
+        .small {
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--muted)
+        }
+
+        .filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .filters button {
+            padding: 9px 14px;
+            border: 1px solid var(--line);
+            background: none;
+            color: var(--muted);
+            border-radius: 25px;
+            font-size: 12px
+        }
+
+        .filters button.active {
+            background: var(--lime);
+            color: var(--bg);
+            border-color: var(--lime)
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px 25px
+        }
+
+        .card {
+            cursor: pointer
+        }
+
+        .thumb {
+            height: 270px;
+            position: relative;
+            background: var(--panel);
+            overflow: hidden;
+            border-radius: 4px
+        }
+
+        .thumb canvas {
+            width: 100%;
+            height: 100%;
+            display: block
+        }
+
+        .badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: #111512c9;
+            border: 1px solid #ffffff25;
+            padding: 6px 9px;
+            font: 10px monospace;
+            color: var(--lime)
+        }
+
+        .cardtitle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .card h3 {
+            font-size: 21px;
+            margin: 18px 0 8px
+        }
+
+        .arrow {
+            color: var(--lime);
+            font-size: 22px;
+            transition: transform .2s
+        }
+
+        .card:hover .arrow {
+            transform: translate(3px, -3px)
+        }
+
+        .tags {
+            color: var(--muted);
+            font: 11px monospace
+        }
+
+        .notice {
+            margin-top: 26px;
+            border-left: 2px solid var(--lime);
+            padding-left: 12px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 60px;
+            border-top: 1px solid var(--line)
+        }
+
+        .about p {
+            color: var(--muted);
+            line-height: 2;
+            font-size: 15px;
+            margin-top: 0
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 32px
+        }
+
+        .skills strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 10px
+        }
+
+        .skills span {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.8
+        }
+
+        .contact {
+            padding: 45px;
+            background: var(--panel);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            margin-bottom: 70px
+        }
+
+        .contact h2 {
+            font-size: 28px;
+            margin: 0 0 12px
+        }
+
+        .contact p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        footer {
+            padding: 28px 0;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            font: 10px monospace;
+            color: var(--muted)
+        }
+
+        dialog {
+            max-width: 650px;
+            width: 90%;
+            background: var(--panel);
+            color: var(--ink);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 35px
+        }
+
+        dialog::backdrop {
+            background: #000b
+        }
+
+        dialog p {
+            color: var(--muted);
+            line-height: 1.9
+        }
+
+        dialog button {
+            background: var(--lime);
+            border: 0;
+            padding: 10px 18px;
+            border-radius: 3px
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        .card:focus-visible {
+            outline: 2px solid var(--lime);
+            outline-offset: 5px
+        }
+
+        [hidden] {
+            display: none !important
+        }
+
+        @media(max-width:760px) {
+            header {
+                padding: 24px
+            }
+
+            nav {
+                gap: 18px
+            }
+
+            main {
+                padding: 0 24px
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 40px 0
+            }
+
+            .hero h1 {
+                letter-spacing: -2px
+            }
+
+            .visual {
+                aspect-ratio: 1.25
+            }
+
+            .strip {
+                gap: 20px;
+                flex-wrap: wrap
+            }
+
+            .sectiontop {
+                align-items: start;
+                flex-direction: column
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 30px
+            }
+
+            .skills {
+                gap: 12px
+            }
+
+            .contact {
+                padding: 26px;
+                align-items: start;
+                flex-direction: column;
+                gap: 24px
+            }
+
+            .thumb {
+                height: 240px
+            }
+
+            section {
+                padding: 50px 0
+            }
+
+            footer {
+                gap: 15px;
+                flex-wrap: wrap
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header><a href="#" class="logo">PLAYGROUND<b>_</b></a>
+        <nav><a href="#projects">作品</a><a href="#about">关于</a><a href="#contact">联系</a></nav>
+    </header>
+    <main>
+        <div class="hero">
+            <div>
+                <div class="eyebrow">Independent creator / Portfolio</div>
+                <h1>用代码构建。<br>让世界<em>可玩。</em></h1>
+                <p>在游戏、关卡与程序化视觉之间探索。<br>这里收集可玩的想法，以及不断生长的个人实验。</p><a class="cta" href="#projects">探索作品
+                    <span>↘</span></a>
+            </div>
+            <div class="visual"><span class="label">PROCEDURAL LANDSCAPE / 001</span><canvas id="hero"
+                    aria-label="程序生成的绿色等高线地形"></canvas>
+                <div class="caption"><span>CODE → FORM → PLAY</span><span>GENERATIVE STUDY</span></div>
+            </div>
+        </div>
+        <div class="strip"><span>探索的三个方向 ↗</span><span>01 / CREATIVE CODE</span><span>02 / LEVEL DESIGN</span><span>03 /
+                PROCEDURAL ART</span></div>
+        <section id="projects">
+            <div class="sectiontop">
+                <div>
+                    <div class="eyebrow">Selected works</div>
+                    <h2>作品与实验<span style="color:var(--lime)">.</span></h2>
+                </div>
+                <div class="filters" aria-label="筛选作品"><button class="active" data-filter="all"
+                        aria-pressed="true">全部</button><button data-filter="game" aria-pressed="false">游戏
+                        Demo</button><button data-filter="level" aria-pressed="false">关卡设计</button><button
+                        data-filter="art" aria-pressed="false">程序化美术</button><button data-filter="code"
+                        aria-pressed="false">代码实验</button></div>
+            </div>
+            <div class="grid" id="grid"></div>
+            <div class="notice">初版布局中的项目均为示例占位，视觉由网页实时绘制。替换为你的项目名称、截图和链接后，即可形成个人作品档案。</div>
+        </section>
+        <section class="about" id="about">
+            <div>
+                <div class="eyebrow">Behind the experiments</div>
+                <h2>从一个想法，<br>到一个可探索的世界。</h2>
+            </div>
+            <div>
+                <p>这个作品集聚焦代码、关卡设计与程序化美术：既关注系统如何运作，也关注玩家如何感知空间。每个项目都可以记录创作动机、关键机制、技术实现与迭代过程。</p>
+                <div class="skills">
+                    <div><strong>代码 / Code</strong><span>交互机制<br>工具与系统实验</span></div>
+                    <div><strong>关卡 / Level</strong><span>空间叙事<br>节奏与探索体验</span></div>
+                    <div><strong>生成 / Procedural</strong><span>规则驱动的形态<br>地形与视觉探索</span></div>
+                </div>
+            </div>
+        </section>
+        <div class="contact" id="contact">
+            <div>
+                <div class="eyebrow" style="margin-bottom:15px">Let's make something playable</div>
+                <h2>下一个有趣的想法，从这里开始。</h2>
+                <p>联系方式待添加 · 可替换为邮箱、GitHub 或 itch.io</p>
+            </div><span style="font-size:36px;color:var(--lime)">↗</span>
+        </div>
+        <footer><span>PLAYGROUND / 个人作品集</span><span>BUILT WITH CURIOSITY. ALWAYS IN PROGRESS.</span></footer>
+    </main>
+    <dialog id="detail">
+        <div class="eyebrow">Project preview / 示例内容</div>
+        <h2 id="dt"></h2>
+        <p id="dd"></p>
+        <p>此处可放置项目视频、游戏操作说明、个人职责、技术拆解与真实 Demo / 源码链接。目前未提供真实项目素材。</p><button id="close">关闭项目</button>
+    </dialog>
+    <script>
+        const projects = [{ title: '遗迹回声', tag: 'GAME DEMO / LEVEL DESIGN', type: ['game', 'level'], style: 0, desc: '示例项目：围绕空间探索展开的游戏 Demo。可展示核心玩法、灰盒迭代与关卡路线。' }, { title: '群山生成器', tag: 'PROCEDURAL ART / TERRAIN', type: ['art', 'code'], style: 1, desc: '示例项目：以规则和噪声构建地形的程序化美术实验。可展示参数变化、生成流程与技术实现。' }, { title: '空间与路径', tag: 'LEVEL DESIGN / BLOCKOUT', type: ['level'], style: 2, desc: '示例项目：通过灰盒空间研究引导、视线和探索节奏。可展示俯视布局、玩家动线与设计复盘。' }, { title: '粒子场实验', tag: 'CREATIVE CODE / SIMULATION', type: ['code', 'art'], style: 3, desc: '示例项目：由数学规则驱动的粒子视觉实验。可展示算法思路、性能取舍与交互效果。' }]; const grid = document.querySelector('#grid'); projects.forEach((p, i) => { const card = document.createElement('article'); card.className = 'card'; card.tabIndex = 0; card.setAttribute('role', 'button'); card.setAttribute('aria-label', '查看示例项目：' + p.title); card.dataset.types = p.type.join(' '); card.innerHTML = `<div class="thumb"><canvas aria-label="${p.title}的程序绘制示意图"></canvas><span class="badge">示例 / ${String(i + 1).padStart(2, '0')}</span></div><div class="cardtitle"><h3>${p.title}</h3><span class="arrow">↗</span></div><div class="tags">${p.tag}</div>`; const open = () => { document.querySelector('#dt').textContent = p.title; document.querySelector('#dd').textContent = p.desc; document.querySelector('#detail').showModal() }; card.onclick = open; card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open() } }; grid.append(card) }); document.querySelectorAll('[data-filter]').forEach(b => b.onclick = () => { document.querySelectorAll('[data-filter]').forEach(v => { v.classList.toggle('active', v === b); v.setAttribute('aria-pressed', v === b ? 'true' : 'false') }); document.querySelectorAll('.card').forEach(c => c.hidden = b.dataset.filter !== 'all' && !c.dataset.types.split(' ').includes(b.dataset.filter)); drawAll() }); document.querySelector('#close').onclick = () => document.querySelector('#detail').close();
+        function paint(canvas, mode) { const r = canvas.getBoundingClientRect(); if (!r.width) return; const d = Math.min(devicePixelRatio || 1, 2); canvas.width = r.width * d; canvas.height = r.height * d; const c = canvas.getContext('2d'); c.scale(d, d); const w = r.width, h = r.height; c.fillStyle = ['#16231e', '#232c20', '#202728', '#171e24'][mode % 4]; c.fillRect(0, 0, w, h); if (mode === 4 || mode === 1) { c.strokeStyle = '#b6e977'; c.lineWidth = .8; for (let k = 0; k < 44; k++) { c.beginPath(); for (let t = 0; t <= 240; t++) { let a = t / 240 * Math.PI * 2; let rad = 18 + k * 4.9; let z = 1 + .13 * Math.sin(a * 3 + k * .08) + .1 * Math.cos(a * 5 - k * .12); let x = w * .51 + Math.cos(a) * rad * z, y = h * .49 + Math.sin(a) * rad * z * .64 + Math.sin(a * 2 + k * .08) * 18; t ? c.lineTo(x, y) : c.moveTo(x, y) } c.closePath(); c.globalAlpha = .18 + k / 60; c.stroke() } c.globalAlpha = 1 } else if (mode === 0 || mode === 2) { c.save(); c.translate(w * .5, h * .56); c.transform(1, .36, -.83, .43, 0, 0); c.strokeStyle = '#5d7560'; for (let i = -10; i <= 10; i++) { c.beginPath(); c.moveTo(i * 24, -240); c.lineTo(i * 24, 240); c.moveTo(-240, i * 24); c.lineTo(240, i * 24); c.stroke() } for (let i = 0; i < 15; i++) { let x = ((i * 97) % 300) - 150, y = ((i * 67) % 240) - 120; c.fillStyle = mode === 0 ? '#344d3e' : '#536261'; c.fillRect(x, y, 55, 45); c.strokeStyle = mode === 0 ? '#a9cf83' : '#b3c0b4'; c.strokeRect(x, y, 55, 45); c.fillStyle = '#c5f277'; if (i % 4 === 0) c.fillRect(x + 8, y + 8, 7, 7) } c.restore() } else { for (let i = 0; i < 650; i++) { let a = i * .15, rad = Math.sqrt(i) * 7, x = w / 2 + Math.cos(a) * rad * (1 + .2 * Math.sin(a * 3)), y = h / 2 + Math.sin(a) * rad * .6; c.fillStyle = i % 4 ? '#83abb1' : '#c5f277'; c.globalAlpha = .3 + (i % 7) / 10; c.beginPath(); c.arc(x, y, i % 9 === 0 ? 2 : 1, 0, 7); c.fill() } c.globalAlpha = 1 } } function drawAll() { paint(document.querySelector('#hero'), 4); document.querySelectorAll('.card canvas').forEach((c, i) => paint(c, projects[i].style)) } new ResizeObserver(drawAll).observe(document.querySelector('main')); drawAll();
+    </script>
+</body>
+
+</html>
